@@ -6,4 +6,4 @@ srpm:
 	# Pass this on to the "real" makefile
 	make FEDORA_RELEASE=$(FEDORA_RELEASE) srpm
 	mkdir -p results
-	mv totpm-*.src.rpm $(outdir)/
+	mv zed-nomotion-*.src.rpm $(outdir)/
