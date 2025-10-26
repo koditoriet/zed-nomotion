@@ -1,0 +1,19 @@
+diff --git a/crates/gpui/src/window.rs b/crates/gpui/src/window.rs
+index caf78fe407..3f193f06c3 100644
+--- a/crates/gpui/src/window.rs
++++ b/crates/gpui/src/window.rs
+@@ -1034,12 +1034,8 @@ impl Window {
+                         .log_err();
+                 }
+ 
+-                // Keep presenting the current scene for 1 extra second since the
+-                // last input to prevent the display from underclocking the refresh rate.
+-                let needs_present = request_frame_options.require_presentation
+-                    || needs_present.get()
+-                    || (active.get()
+-                        && last_input_timestamp.get().elapsed() < Duration::from_secs(1));
++                // ProMotion 120 FPS hack patched out
++                let needs_present = request_frame_options.require_presentation || needs_present.get();
+ 
+                 if invalidator.is_dirty() || request_frame_options.force_render {
+                     measure("frame duration", || {
