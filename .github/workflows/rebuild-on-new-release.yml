@@ -1,0 +1,26 @@
+on:
+  schedule:
+  - cron: "0 0 * * *"
+
+jobs:
+  check_for_new_release:
+    name: Check for new release
+    runs-on: self-hosted
+    steps:
+      - name: Check out zed-nomotion
+        uses: actions/checkout@v4
+      - name: Check for new release
+        run: |
+          upstream_latest_release_data=$(curl -Ls https://api.github.com/repos/zed-industries/zed/releases | jq 'map(select(.prerelease | not))[0]')
+          upstream_latest_release=$(echo $upstream_latest_release_data | jq -r '.name' | sed 's/^v//')
+          nomotion_latest_release=$(grep 'Version: ' zed-nomotion.spec | awk '{print $2}')
+
+          if [ "$upstream_latest_release" != "$nomotion_latest_release" ] ; then
+            echo "new release available: $upstream_latest_release (latest nomotion release: $nomotion_latest_release)"
+            echo "updating .spec file"
+            sed -i "s/\(Version:\s\+\)[0-9.]\+/\1 $upstream_latest_release/" zed-nomotion.spec
+            git commit -am "v$upstream_latest_release"
+            git push
+          else
+            echo "already on latest release; nothing to do"
+          fi
