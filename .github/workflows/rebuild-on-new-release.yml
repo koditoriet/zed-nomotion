@@ -23,7 +23,7 @@ jobs:
           if [ "$upstream_latest_release" != "$nomotion_latest_release" ] ; then
             echo "new release available: $upstream_latest_release (latest nomotion release: $nomotion_latest_release)"
             echo "updating .spec file"
-            sed -i "s/\(Version:\s\+\)[0-9.]\+/\1 $upstream_latest_release/" zed-nomotion.spec
+            sed -i "s/\(Version:\\s\+\)[0-9.]\+/\1$upstream_latest_release/" zed-nomotion.spec
             git config --global user.name 'GitHub Actions'
             git config --global user.email 'github-actions@github.com'
             git commit -am "v$upstream_latest_release"
