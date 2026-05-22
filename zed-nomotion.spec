@@ -9,7 +9,7 @@
 %global rustflags_debuginfo 0
 
 Name:           zed-nomotion
-Version:                1.3.5
+Version:                 1.3.6
 Release:        1%?dist
 Summary:        The Zed editor, patched to reduce power consumption
 SourceLicense:  AGPL-3.0-only AND Apache-2.0 AND GPL-3.0-or-later
